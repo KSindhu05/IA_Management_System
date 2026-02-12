@@ -10,7 +10,7 @@ import bg2 from '../assets/slideshow_1.png';
 import bg3 from '../assets/slideshow_2.png';
 import bg4 from '../assets/slideshow_3.png';
 import headerLogo from '../assets/header_logo.png';
-import collegeLogo from '../assets/college_logo.png';
+import collegeLogo from '../assets/college1_logo.png';
 
 const backgroundImages = [bg1, bg2, bg3, bg4];
 
