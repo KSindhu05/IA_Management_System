@@ -1,0 +1,691 @@
+/* Professional Academic Dashboard CSS */
+
+.dashboardContainer {
+    position: relative;
+    min-height: 100%;
+    padding: 1.5rem;
+    overflow-x: hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+}
+
+.dashboardContainer::-webkit-scrollbar {
+    display: none;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.welcomeText {
+    font-size: 1.75rem;
+    /* 28px */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.typewriter {
+    border-right: 3px solid var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    animation: blink 0.75s step-end infinite;
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--primary)
+    }
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.actionBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.actionBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Stats / Summary Grid */
+.summaryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summaryCard {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.summaryCard:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-md);
+    border-color: var(--secondary);
+}
+
+.summaryIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.summaryInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.summaryLabel {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.summaryValue {
+    font-size: 1.5rem;
+    /* 24px */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0.25rem 0 0 0;
+}
+
+.summarySubtext {
+    font-size: 0.75rem;
+    /* 12px */
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Layout for Analytics & Insights */
+.contentGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .contentGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.analyticsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .analyticsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* General Card Styling */
+.card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.chartCard {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.chartCard:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-md);
+}
+
+/* Insights Card */
+.insightsCard {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(30, 58, 138, 0.05) 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    height: 100%;
+}
+
+.insightsHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.insightIconBox {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.insightsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.insightItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s;
+}
+
+.insightItem:hover {
+    transform: translateX(4px);
+    border-color: var(--secondary);
+}
+
+.insightIndicator {
+    width: 4px;
+    height: 40px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.insightContent h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.insightContent p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Tables */
+.tableContainer {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+}
+
+.table th {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    /* 14px ish */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    /* 14px */
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.table tr:nth-child(even) {
+    background-color: var(--bg-primary);
+    /* #F8FAFC equivalent if light */
+}
+
+.table tr:hover {
+    background-color: var(--bg-hover);
+}
+
+/* Progress Bar in Table */
+.progressContainer {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-hover);
+    border-radius: 3px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.progressBar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* Badges */
+.badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    letter-spacing: 0.02em;
+}
+
+/* Selection Row */
+.selectionRow {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.selectionGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.selectionLabel {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.selectInput {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.selectInput:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Notifications / Other */
+.notificationPanel {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    width: 320px;
+    z-index: 50;
+    padding: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Attendance Circle (Preserved but updated colors) */
+.attendanceGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.attendanceCard {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s;
+    height: 100%;
+}
+
+.attendanceCard:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-md);
+}
+
+.attendanceHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.attendanceSubject {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.attendanceCircle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+}
+
+.attendanceCircle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 84px;
+    height: 84px;
+    background: var(--bg-card);
+    /* Matches card bg */
+    border-radius: 50%;
+}
+
+.attendancePercentage {
+    position: relative;
+    z-index: 10;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.attendanceLabel {
+    position: relative;
+    z-index: 10;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Exam List */
+.examsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.examItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary);
+}
+
+.examBadge {
+    padding: 0.25rem 0.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--secondary);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.examSubject {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.examDate {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Faculty Grid */
+.facultyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.facultyCard {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+}
+
+.facultyCard:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+@media print {
+
+    /* Hide non-printable elements */
+    .header .actionBtn,
+    .selectionRow,
+    .toast,
+    .notificationPanel,
+    .dashboardContainer .filterContainer,
+    .dashboardContainer .actionArea {
+        display: none !important;
+    }
+
+    .dashboardContainer::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Reset background and layout for A4 */
+    .dashboardContainer {
+        position: static;
+        overflow: visible;
+        background-color: #fff !important;
+        color: #000 !important;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: auto;
+    }
+
+    /* Adjust grids for print */
+    .summaryGrid,
+    .analyticsGrid,
+    .contentGrid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        page-break-inside: avoid;
+    }
+
+    .summaryCard,
+    .card,
+    .chartCard,
+    .insightsCard,
+    .statCard {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        background: #fff !important;
+        color: #000 !important;
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+
+    /* Force background colors for charts/badges if user enables background printing */
+    .summaryIcon,
+    .badge,
+    .progressBar {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Header adjustments */
+    .header {
+        display: block;
+        border-bottom: 2px solid #000;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    .welcomeText {
+        font-size: 24pt;
+        color: #000 !important;
+        background: none !important;
+        -webkit-text-fill-color: #000 !important;
+    }
+
+    .subtitle {
+        color: #444 !important;
+        font-size: 12pt;
+    }
+
+    /* Table adjustments */
+    .tableContainer {
+        border: none;
+        overflow: visible;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ccc;
+        color: #000 !important;
+        padding: 8px;
+    }
+
+    .table th {
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Text colors */
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    div {
+        color: #000 !important;
+    }
+
+    /* Ensure content fits */
+    body {
+        font-size: 11pt;
+    }
+}

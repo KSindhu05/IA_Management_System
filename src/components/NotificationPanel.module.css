@@ -1,0 +1,145 @@
+.panelOverlay {
+    position: fixed;
+    top: 60px;
+    /* Below navbar */
+    right: 20px;
+    z-index: 1000;
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+}
+
+.header {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.closeBtn:hover {
+    background: #f3f4f6;
+}
+
+.content {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.loading,
+.empty {
+    padding: 2rem;
+    text-align: center;
+    color: #9ca3af;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    padding: 1rem;
+    border-bottom: 1px solid #f9fafb;
+    display: flex;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+}
+
+.item:hover {
+    background: #f9fafb;
+}
+
+.item.unread {
+    background: #eff6ff;
+}
+
+.item.unread:hover {
+    background: #e0f2fe;
+}
+
+.iconWrapper {
+    margin-top: 2px;
+}
+
+.details {
+    flex: 1;
+}
+
+.titleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.titleRow h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.time {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.details p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #2563eb;
+    border-radius: 50%;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
