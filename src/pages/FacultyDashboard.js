@@ -2857,6 +2857,7 @@ const FacultyDashboard = () => {
                                     <th>Reg No</th>
                                     <th>Student Name</th>
                                     <th>Marks</th>
+                                    <th>Attendance</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -2877,15 +2878,21 @@ const FacultyDashboard = () => {
                                                     <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{item.subject} ({item.cieType})</div>
                                                 </td>
                                                 <td style={{ color: '#ef4444', fontWeight: 'bold' }}>{item.score}/50</td>
+                                                <td style={{ fontWeight: '500' }}>{item.attendance != null ? `${item.attendance}%` : 'N/A'}</td>
                                                 <td>
-                                                    <button
-                                                        className={styles.iconBtn}
-                                                        onClick={() => showToast(`Alert sent for ${item.name}`)}
-                                                        title="Notify Parent"
-                                                        style={{ color: '#dc2626', background: '#fee2e2', padding: '6px' }}
-                                                    >
-                                                        <Phone size={16} /> Notify
-                                                    </button>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                                        <span style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569' }}>
+                                                            {item.parentPhone || 'No Contact'}
+                                                        </span>
+                                                        <button
+                                                            className={styles.iconBtn}
+                                                            onClick={() => showToast(`Alert sent for ${item.name}`)}
+                                                            title="Notify Parent"
+                                                            style={{ color: '#dc2626', background: '#fee2e2', padding: '4px 8px', borderRadius: '6px', alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', fontWeight: '600' }}
+                                                        >
+                                                            <Phone size={14} /> Notify
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))

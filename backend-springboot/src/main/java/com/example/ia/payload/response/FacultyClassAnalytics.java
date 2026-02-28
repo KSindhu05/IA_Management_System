@@ -87,16 +87,21 @@ public class FacultyClassAnalytics {
         private String subject;
         private String cieType;
         private double score;
+        private Double attendance;
+        private String parentPhone;
 
         public LowPerformer() {
         }
 
-        public LowPerformer(String regNo, String name, String subject, String cieType, double score) {
+        public LowPerformer(String regNo, String name, String subject, String cieType, double score, Double attendance,
+                String parentPhone) {
             this.regNo = regNo;
             this.name = name;
             this.subject = subject;
             this.cieType = cieType;
             this.score = score;
+            this.attendance = attendance;
+            this.parentPhone = parentPhone;
         }
 
         public String getRegNo() {
@@ -137,6 +142,22 @@ public class FacultyClassAnalytics {
 
         public void setScore(double score) {
             this.score = score;
+        }
+
+        public Double getAttendance() {
+            return attendance;
+        }
+
+        public void setAttendance(Double attendance) {
+            this.attendance = attendance;
+        }
+
+        public String getParentPhone() {
+            return parentPhone;
+        }
+
+        public void setParentPhone(String parentPhone) {
+            this.parentPhone = parentPhone;
         }
     }
 }
