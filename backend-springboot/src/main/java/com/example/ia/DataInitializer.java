@@ -112,104 +112,43 @@ public class DataInitializer {
                 System.out.println("🗑️ Deleted old HOD user: HOD001");
             });
             boolean hodIsNew = !userRepository.existsByUsername("Jaffar@CSE");
-            User hodUser = userRepository.findByUsername("Jaffar@CSE").orElse(new User());
-            hodUser.setUsername("Jaffar@CSE");
             if (hodIsNew) {
+                User hodUser = new User();
+                hodUser.setUsername("Jaffar@CSE");
                 hodUser.setPassword(passwordEncoder.encode(defaultPassword));
+                hodUser.setEmail("hod.cs@example.com");
+                hodUser.setRole("HOD");
+                hodUser.setFullName("MD Jaffar");
+                hodUser.setDesignation("Head of Department");
+                hodUser.setDepartment("CSE");
+                userRepository.save(hodUser);
+                System.out.println("✅ HOD user created: Jaffar@CSE (MD Jaffar)");
             }
-            hodUser.setEmail("hod.cs@example.com");
-            hodUser.setRole("HOD");
-            hodUser.setFullName("MD Jaffar");
-            hodUser.setDesignation("Head of Department");
-            hodUser.setDepartment("CSE");
-            userRepository.save(hodUser);
-            System.out.println("✅ HOD user " + (hodIsNew ? "created" : "updated (password preserved)")
-                    + ": Jaffar@CSE (MD Jaffar)");
 
             // HOD - EEE Department
             boolean hodEeeIsNew = !userRepository.existsByUsername("HOD@EEE");
-            User hodEeeUser = userRepository.findByUsername("HOD@EEE").orElse(new User());
-            hodEeeUser.setUsername("HOD@EEE");
             if (hodEeeIsNew) {
+                User hodEeeUser = new User();
+                hodEeeUser.setUsername("HOD@EEE");
                 hodEeeUser.setPassword(passwordEncoder.encode(defaultPassword));
+                hodEeeUser.setEmail("hod.eee@example.com");
+                hodEeeUser.setRole("HOD");
+                hodEeeUser.setFullName("HOD EEE");
+                hodEeeUser.setDesignation("Head of Department");
+                hodEeeUser.setDepartment("EEE");
+                userRepository.save(hodEeeUser);
+                System.out.println("✅ HOD EEE user created: HOD@EEE");
             }
-            hodEeeUser.setEmail("hod.eee@example.com");
-            hodEeeUser.setRole("HOD");
-            hodEeeUser.setFullName("HOD EEE");
-            hodEeeUser.setDesignation("Head of Department");
-            hodEeeUser.setDepartment("EEE");
-            userRepository.save(hodEeeUser);
-            System.out.println("✅ HOD EEE user " + (hodEeeIsNew ? "created" : "updated (password preserved)")
-                    + ": HOD@EEE");
 
             // 3. Faculty Seeding
-            // FAC001 - Miss Manju Sree
-            boolean fac1IsNew = !userRepository.existsByUsername("FAC001");
-            User fac1 = userRepository.findByUsername("FAC001").orElse(new User());
-            fac1.setUsername("FAC001");
-            if (fac1IsNew) {
-                fac1.setPassword(passwordEncoder.encode(defaultPassword));
-            }
-            fac1.setEmail("manjusree@example.com");
-            fac1.setFullName("Miss Manju Sree");
-            fac1.setDesignation("Assistant Professor");
-            fac1.setDepartment("CSE");
-            fac1.setRole("FACULTY");
-            fac1.setSubjects("Engineering Maths-II");
-            userRepository.save(fac1);
-            System.out.println("✅ Faculty FAC001 " + (fac1IsNew ? "created" : "updated (password preserved)")
-                    + ": Miss Manju Sree");
-
-            // FAC002 - Ramesh Gouda
-            boolean fac2IsNew = !userRepository.existsByUsername("FAC002");
-            User fac2 = userRepository.findByUsername("FAC002").orElse(new User());
-            fac2.setUsername("FAC002");
-            if (fac2IsNew) {
-                fac2.setPassword(passwordEncoder.encode(defaultPassword));
-            }
-            fac2.setEmail("rameshgouda@example.com");
-            fac2.setFullName("Ramesh Gouda");
-            fac2.setDesignation("Assistant Professor");
-            fac2.setDepartment("CSE");
-            fac2.setRole("FACULTY");
-            fac2.setSubjects("CAEG");
-            userRepository.save(fac2);
-            System.out.println(
-                    "✅ Faculty FAC002 " + (fac2IsNew ? "created" : "updated (password preserved)") + ": Ramesh Gouda");
-
-            // FAC003 - Wahida Banu
-            boolean fac3IsNew = !userRepository.existsByUsername("FAC003");
-            User fac3 = userRepository.findByUsername("FAC003").orElse(new User());
-            fac3.setUsername("FAC003");
-            if (fac3IsNew) {
-                fac3.setPassword(passwordEncoder.encode(defaultPassword));
-            }
-            fac3.setEmail("wahidabanu@example.com");
-            fac3.setFullName("Wahida Banu");
-            fac3.setDesignation("Assistant Professor");
-            fac3.setDepartment("CSE");
-            fac3.setRole("FACULTY");
-            fac3.setSubjects("Python,Indian Constitution");
-            userRepository.save(fac3);
-            System.out.println(
-                    "✅ Faculty FAC003 " + (fac3IsNew ? "created" : "updated (password preserved)") + ": Wahida Banu");
-
-            // FAC004 - Nasrin Banu
-            boolean fac4IsNew = !userRepository.existsByUsername("FAC004");
-            User fac4 = userRepository.findByUsername("FAC004").orElse(new User());
-            fac4.setUsername("FAC004");
-            if (fac4IsNew) {
-                fac4.setPassword(passwordEncoder.encode(defaultPassword));
-            }
-            fac4.setEmail("nasrinbanu@example.com");
-            fac4.setFullName("Nasrin Banu");
-            fac4.setDesignation("Assistant Professor");
-            fac4.setDepartment("CSE");
-            fac4.setRole("FACULTY");
-            fac4.setSubjects("English Communication");
-            userRepository.save(fac4);
-            System.out.println(
-                    "✅ Faculty FAC004 " + (fac4IsNew ? "created" : "updated (password preserved)") + ": Nasrin Banu");
+            seedFacultyIfNotFound(userRepository, passwordEncoder, "FAC001", "Miss Manju Sree", "manjusree@example.com",
+                    "CSE", "Engineering Maths-II", defaultPassword);
+            seedFacultyIfNotFound(userRepository, passwordEncoder, "FAC002", "Ramesh Gouda", "rameshgouda@example.com",
+                    "CSE", "CAEG", defaultPassword);
+            seedFacultyIfNotFound(userRepository, passwordEncoder, "FAC003", "Wahida Banu", "wahidabanu@example.com",
+                    "CSE", "Python,Indian Constitution", defaultPassword);
+            seedFacultyIfNotFound(userRepository, passwordEncoder, "FAC004", "Nasrin Banu", "nasrinbanu@example.com",
+                    "CSE", "English Communication", defaultPassword);
 
             // 4. Real Student Seeding (459CS25001 - A KAVITHA)
             if (!userRepository.existsByUsername("459CS25001")) {
@@ -365,6 +304,25 @@ public class DataInitializer {
             System.out.println("✅ Sample CIE marks seeded for 10 students");
 
         };
+
+    }
+
+    private void seedFacultyIfNotFound(com.example.ia.repository.UserRepository userRepo,
+            org.springframework.security.crypto.password.PasswordEncoder encoder,
+            String username, String fullName, String email, String dept, String subjects, String password) {
+        if (!userRepo.existsByUsername(username)) {
+            com.example.ia.entity.User fac = new com.example.ia.entity.User();
+            fac.setUsername(username);
+            fac.setPassword(encoder.encode(password));
+            fac.setEmail(email);
+            fac.setFullName(fullName);
+            fac.setDesignation("Assistant Professor");
+            fac.setDepartment(dept);
+            fac.setRole("FACULTY");
+            fac.setSubjects(subjects);
+            userRepo.save(fac);
+            System.out.println("✅ Faculty user created: " + username + " (" + fullName + ")");
+        }
     }
 
     private void createSubjectIfNotFound(com.example.ia.repository.SubjectRepository repo,
