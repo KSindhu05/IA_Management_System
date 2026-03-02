@@ -28,6 +28,8 @@ public class Announcement {
     @JoinColumn(name = "faculty_id")
     private User faculty;
 
+    private String questionPaperPath; // Path to uploaded question paper file
+
     public Announcement() {
     }
 
@@ -109,5 +111,13 @@ public class Announcement {
 
     public void setSyllabusCoverage(String syllabusCoverage) {
         this.syllabusCoverage = syllabusCoverage;
+    }
+
+    public String getQuestionPaperPath() {
+        return questionPaperPath;
+    }
+
+    public void setQuestionPaperPath(String questionPaperPath) {
+        this.questionPaperPath = questionPaperPath;
     }
 }

@@ -10,11 +10,21 @@ import com.example.ia.repository.SubjectRepository;
 import com.example.ia.repository.UserRepository;
 import com.example.ia.service.CieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +48,9 @@ public class CieController {
 
     @Autowired
     NotificationRepository notificationRepository;
+
+    @Value("${app.upload.dir:uploads/questions}")
+    private String uploadDir;
 
     // ========== STUDENT ENDPOINTS ==========
 
@@ -100,7 +113,6 @@ public class CieController {
         String cieNumber = data.get("cieNumber").toString();
         String syllabus = data.getOrDefault("syllabusCoverage", "").toString();
 
-        // Find the existing announcement for this subject+CIE
         List<Announcement> matches = announcementRepository.findBySubjectIdIn(List.of(subjectId));
         Announcement existing = matches.stream()
                 .filter(a -> cieNumber.equals(a.getCieNumber()))
@@ -138,12 +150,11 @@ public class CieController {
                 .orElse(null);
 
         if (existing == null) {
-            // Create a new announcement with syllabus
             Announcement ann = new Announcement();
             ann.setSubject(subject);
             ann.setCieNumber(cieNumber);
             ann.setSyllabusCoverage(syllabus);
-            ann.setScheduledDate(java.time.LocalDate.now());
+            ann.setScheduledDate(LocalDate.now());
             ann.setStartTime("TBD");
             ann.setDurationMinutes(60);
             ann.setExamRoom("TBD");
@@ -172,6 +183,98 @@ public class CieController {
         return ResponseEntity.ok(all);
     }
 
+    // ========== FACULTY: UPLOAD QUESTION PAPER ==========
+
+    @PostMapping("/faculty/upload-question")
+    @PreAuthorize("hasRole('FACULTY')")
+    public ResponseEntity<?> uploadQuestionPaper(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("subjectId") Long subjectId,
+            @RequestParam("cieNumber") String cieNumber) {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User faculty = userRepository.findByUsernameIgnoreCase(username).orElse(null);
+        if (faculty == null)
+            return ResponseEntity.badRequest().body(Map.of("message", "Faculty not found"));
+
+        Subject subject = subjectRepository.findById(subjectId).orElse(null);
+        if (subject == null)
+            return ResponseEntity.badRequest().body(Map.of("message", "Subject not found"));
+
+        try {
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            String originalFilename = file.getOriginalFilename();
+            String storedFilename = subjectId + "_CIE" + cieNumber + "_" + System.currentTimeMillis() + "_"
+                    + originalFilename;
+            Path filePath = uploadPath.resolve(storedFilename);
+            Files.copy(file.getInputStream(), filePath);
+
+            // Find or create announcement for this subject+CIE
+            List<Announcement> matches = announcementRepository.findBySubjectIdIn(List.of(subjectId));
+            Announcement ann = matches.stream()
+                    .filter(a -> cieNumber.equals(a.getCieNumber()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (ann == null) {
+                ann = new Announcement();
+                ann.setSubject(subject);
+                ann.setFaculty(faculty);
+                ann.setCieNumber(cieNumber);
+                ann.setScheduledDate(LocalDate.now());
+                ann.setStartTime("TBD");
+                ann.setDurationMinutes(60);
+                ann.setExamRoom("TBD");
+                ann.setStatus("SCHEDULED");
+            }
+
+            ann.setQuestionPaperPath(storedFilename);
+            announcementRepository.save(ann);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Question paper uploaded successfully",
+                    "filename", storedFilename));
+
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", "Failed to upload file: " + e.getMessage()));
+        }
+    }
+
+    // ========== DOWNLOAD QUESTION PAPER ==========
+
+    @GetMapping("/download/{filename:.+}")
+    @PreAuthorize("hasRole('HOD') or hasRole('FACULTY') or hasRole('PRINCIPAL')")
+    public ResponseEntity<Resource> downloadQuestionPaper(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            String contentType = "application/octet-stream";
+            if (filename.endsWith(".xlsx") || filename.endsWith(".xls")) {
+                contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            } else if (filename.endsWith(".pdf")) {
+                contentType = "application/pdf";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                    .body(resource);
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     // ========== HOD ENDPOINTS ==========
 
     @GetMapping("/hod/announcements")
@@ -197,16 +300,13 @@ public class CieController {
     // ========== HOD/PRINCIPAL CREATE ANNOUNCEMENTS ==========
 
     @PostMapping("/announcements")
-    // @PreAuthorize("hasRole('HOD') or hasRole('PRINCIPAL')") // Removed to allow
-    // fallback auth
     public ResponseEntity<?> createAnnouncement(@RequestBody Map<String, Object> data) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Long subjectId = Long.valueOf(data.get("subjectId").toString()); // Extract from body
+        Long subjectId = Long.valueOf(data.get("subjectId").toString());
 
-        System.out
-                .println("CIE Announcement Request: User=" + username + ", SubjectId=" + subjectId + ", Data=" + data); // DEBUG
+        System.out.println(
+                "CIE Announcement Request: User=" + username + ", SubjectId=" + subjectId + ", Data=" + data);
 
-        // Fallback to senderId if Auth fails
         if ("anonymousUser".equals(username) || username == null) {
             if (data.containsKey("senderId")) {
                 username = data.get("senderId").toString();
@@ -218,9 +318,9 @@ public class CieController {
         Subject subject = subjectRepository.findById(subjectId).orElse(null);
 
         if (creator == null || subject == null) {
-            System.out
-                    .println("CreateAnnouncement Failed: Creator=" + (creator == null ? "null" : creator.getUsername())
-                            + ", Subject=" + (subject == null ? "null" : subject.getName())); // DEBUG
+            System.out.println("CreateAnnouncement Failed: Creator="
+                    + (creator == null ? "null" : creator.getUsername())
+                    + ", Subject=" + (subject == null ? "null" : subject.getName()));
             return ResponseEntity.badRequest().body(Map.of("message", "Invalid request"));
         }
 
@@ -260,8 +360,6 @@ public class CieController {
         if (data.containsKey("examRoom")) {
             ann.setExamRoom(data.get("examRoom").toString());
         }
-        // Can also update subject/cieNumber if needed, but usually those are fixed for
-        // a specific schedule event
 
         announcementRepository.save(ann);
         return ResponseEntity.ok(ann);

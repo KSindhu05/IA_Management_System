@@ -1,2 +1,0 @@
-﻿total	department	semester
-63	CS	2

@@ -3096,6 +3096,61 @@ const FacultyDashboard = () => {
                                         Clear
                                     </button>
                                     <button
+                                        className={styles.secondaryBtn}
+                                        style={{
+                                            padding: '0.75rem 1.5rem',
+                                            fontSize: '1rem',
+                                            background: '#f0fdf4',
+                                            border: '1px solid #86efac',
+                                            color: '#166534',
+                                            cursor: iaConfig.subjectId ? 'pointer' : 'not-allowed',
+                                            opacity: iaConfig.subjectId ? 1 : 0.5
+                                        }}
+                                        onClick={() => {
+                                            if (!iaConfig.subjectId) {
+                                                showToast('Please select a subject first', 'warning');
+                                                return;
+                                            }
+                                            document.getElementById('questionPaperInput').click();
+                                        }}
+                                    >
+                                        <Upload size={18} /> Upload Question Paper
+                                    </button>
+                                    <input
+                                        id="questionPaperInput"
+                                        type="file"
+                                        accept=".xlsx,.xls,.pdf,.doc,.docx"
+                                        style={{ display: 'none' }}
+                                        onChange={async (e) => {
+                                            const file = e.target.files[0];
+                                            if (!file) return;
+                                            if (!iaConfig.subjectId) {
+                                                showToast('Please select a subject first', 'warning');
+                                                return;
+                                            }
+                                            const formData = new FormData();
+                                            formData.append('file', file);
+                                            formData.append('subjectId', iaConfig.subjectId);
+                                            formData.append('cieNumber', iaConfig.cieNumber || '1');
+                                            try {
+                                                const res = await fetch(`${API_BASE_URL}/cie/faculty/upload-question`, {
+                                                    method: 'POST',
+                                                    headers: { 'Authorization': `Bearer ${user.token}` },
+                                                    body: formData
+                                                });
+                                                if (res.ok) {
+                                                    showToast('Question paper uploaded successfully!', 'success');
+                                                } else {
+                                                    const err = await res.json();
+                                                    showToast(err.message || 'Upload failed', 'error');
+                                                }
+                                            } catch (err) {
+                                                showToast('Upload failed: ' + err.message, 'error');
+                                            }
+                                            e.target.value = '';
+                                        }}
+                                    />
+                                    <button
                                         className={styles.saveBtn}
                                         style={{
                                             padding: '0.75rem 1.5rem',
@@ -3215,6 +3270,29 @@ const FacultyDashboard = () => {
                                             {sched.instructions && (
                                                 <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#6b7280', fontStyle: 'italic' }}>
                                                     " {sched.instructions} "
+                                                </div>
+                                            )}
+                                            {sched.questionPaperPath && (
+                                                <div style={{
+                                                    marginTop: '0.8rem',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '8px',
+                                                    padding: '8px 12px',
+                                                    background: '#ecfdf5',
+                                                    borderRadius: '8px',
+                                                    border: '1px solid #6ee7b7',
+                                                    width: 'fit-content'
+                                                }}>
+                                                    <CheckCircle size={16} color="#10b981" />
+                                                    <a
+                                                        href={`${API_BASE_URL}/cie/download/${sched.questionPaperPath}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{ color: '#065f46', fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                                                    >
+                                                        <Download size={14} /> Download Uploaded Question Paper
+                                                    </a>
                                                 </div>
                                             )}
                                             <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#94a3b8', textAlign: 'right' }}>
