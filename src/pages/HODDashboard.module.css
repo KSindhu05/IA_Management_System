@@ -281,11 +281,46 @@
     font-family: inherit;
 }
 
+/* ─── Header Card Box ──────────────────────────────────────────────────── */
+
+.header {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin: 0.4rem 0rem 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease-in-out;
+}
+
+.header:hover {
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+}
+
+.welcomeTextBig {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #6366F1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 0.3rem 0 0 0;
+    font-weight: 500;
+}
+
 /* Scrollable Area */
 .scrollableContent {
     flex: 1;
     overflow-y: auto;
-    padding: 2rem;
+    padding: 0;
     animation: fadeIn 0.5s ease-out;
 }
 

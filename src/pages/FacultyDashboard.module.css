@@ -1,12 +1,19 @@
 .header {
     background: white;
-    padding: 0 2rem;
+    padding: 1.5rem 2rem;
+    margin: 0.4rem 0rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e2e8f0;
-    height: 150px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
     flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.header:hover {
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
 }
 
 .welcomeText {

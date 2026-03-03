@@ -4,11 +4,20 @@
    We only need to style the inner content here. */
 
 .header {
+    background: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2.5rem;
-    padding: 2rem 2rem 0 2rem;
+    padding: 1.5rem 2rem;
+    margin: 0.5rem 0rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease-in-out;
+}
+
+.header:hover {
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
 }
 
 .welcomeText {
